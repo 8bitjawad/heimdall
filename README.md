@@ -92,6 +92,7 @@ All models achieve **97-100% precision** across categories:
 - ✅ **Social Media**: 98-99% (consistent)
 - ✅ **Forum**: 96-98% (strong performance)
 - ⚠️ **Updates**: 96-97% (slightly challenging due to varied content)
+<img width="567" height="728" alt="image" src="https://github.com/user-attachments/assets/d2b9978e-babd-43d9-81af-d0335fae927e" />
 
 ---
 
@@ -212,20 +213,17 @@ email-classifier/
 ### 1. Data Preprocessing Pipeline
 
 ```python
-def preprocess_text(text):
-    # Lowercase conversion
-    text = text.lower()
-    
-    # Remove punctuation
-    text = re.sub(r'[^\w\s]', '', text)
-    
-    # Tokenization & stopword removal
-    tokens = [word for word in text.split() if word not in stopwords]
-    
-    # Lemmatization
-    lemmatized = [lemmatizer.lemmatize(token) for token in tokens]
-    
-    return ' '.join(lemmatized)
+stop_words = set(stopwords.words('english'))
+lemmatizer = WordNetLemmatizer()
+
+def clean_text_fn(text):
+    text = text.lower()  # lowercase
+    text = ''.join([c for c in text if c not in string.punctuation])  # remove punctuation
+    words = text.split()
+    words = [lemmatizer.lemmatize(w) for w in words if w not in stop_words]  # remove stopwords & lemmatize
+    return ' '.join(words)
+
+df['clean_text'] = df['text'].apply(clean_text_fn)
 ```
 
 ### 2. Feature Extraction
@@ -265,30 +263,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👤 Author
-
-**Your Name**
-
-- 🌐 Portfolio: [yourwebsite.com](#)
-- 💼 LinkedIn: [linkedin.com/in/yourprofile](#)
-- 🐙 GitHub: [@yourusername](#)
-
----
-
-## 🙏 Acknowledgments
-
-- Dataset source: [Link to dataset](#)
-- Built with [Streamlit](https://streamlit.io/)
-- ML models powered by [scikit-learn](https://scikit-learn.org/)
 
 ---
 
