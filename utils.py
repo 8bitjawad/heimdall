@@ -4,6 +4,11 @@ import re
 import joblib
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+import nltk
+
+# Download necessary NLTK datasets (only the first time)
+nltk.download('stopwords')
+nltk.download('wordnet')
 
 # --- Initialize stopwords and lemmatizer ---
 stop_words = set(stopwords.words('english'))
